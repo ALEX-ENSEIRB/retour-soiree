@@ -63,7 +63,7 @@ create table PARTICIPATIONS
 );
 
 
-create table COMMENTAIRES
+create table COMMENTAIRES_TRAJETS
 (
     ID_COMMENTAIRE int(6) primary key auto_increment not null,
     NOTE int(2),
@@ -73,6 +73,18 @@ create table COMMENTAIRES
     ID_TRAJET int(6),
     foreign key (NO_ETUDIANT) references ETUDIANTS(NO_ETUDIANT),
 	foreign key (ID_TRAJET) references TRAJETS(ID_TRAJET)
+);
+
+create table COMMENTAIRES_PERSONNES
+(
+    ID_COMMENTAIRE int(6) primary key auto_increment not null,
+    NOTE int(2),
+    CONTENU_COMMENTAIRE varchar(255),
+	HEURE_COMMENTAIRE time,
+    NO_ETUDIANT_CIBLE int(6),
+    NO_ETUDIANT_SOURCE int(6),
+    foreign key (NO_ETUDIANT_CIBLE) references ETUDIANTS(NO_ETUDIANT),
+	foreign key (NO_ETUDIANT_SOURCE) references ETUDIANTS(NO_ETUDIANT)
 );
 
 create table MESSAGES

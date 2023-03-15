@@ -1,9 +1,9 @@
 <?php
-  $login = 'root'/*A compléter*/;
-  $db_pwd = ''/*A compléter*/;
+  $login = 'aldelaveau'/*A compléter*/;
+  $db_pwd = 'Ph^#X8uWx6K6*y'/*A compléter*/;
   $db_name = 'test';
   /* Creation de l'objet qui gere la connexion: */
-  $connection = new mysqli("localhost", $login, $db_pwd, $db_name);
+  $connection = new mysqli("localhost", $login, $db_pwd, $login);
 
 
     /* Si la connexion echoue, on affiche un message d'erreur */
