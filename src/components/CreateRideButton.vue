@@ -1,9 +1,12 @@
 <template>
     <div>
         <div class="create-ride-button">
-            <button class="create-ride-button__button" @click="createRide">
-                <span class="create-ride-button__button__text">Créer Trajet</span>
-            </button>
+            <router-link class="link" to="/create-ride">
+
+                <button class="create-ride-button__button" @click="createRide">
+                    <span class="create-ride-button__button__text">Créer Trajet</span>
+                </button>
+            </router-link>
         </div>
     </div>
 </template>
