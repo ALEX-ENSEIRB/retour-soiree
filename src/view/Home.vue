@@ -56,6 +56,7 @@ const api_url = ref('')
 
 .slogan_text{
     width: 100%;
+    color: #fff;
     
 }
 

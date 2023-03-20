@@ -1,6 +1,6 @@
 <?php
-  $login = 'aldelaveau'/*A compléter*/;
-  $db_pwd = 'Ph^#X8uWx6K6*y'/*A compléter*/;
+  $login = 'mdurocher001'/*A compléter*/;
+  $db_pwd = 'tpMysqldrc'/*A compléter*/;
   $db_name = 'test';
   /* Creation de l'objet qui gere la connexion: */
   $connection = new mysqli("localhost", $login, $db_pwd, $login);
