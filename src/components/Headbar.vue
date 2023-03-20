@@ -7,10 +7,8 @@
             <router-link class="link" to="/create-ride">Créer Trajet</router-link>
             <router-link class="link" to="/search-ride">Rechercher Trajet</router-link>
             <router-link class="link" to="/historic">Historique</router-link>
-            <router-link class="link" to="/connect">Se connecter</router-link>
+            <router-link class="link" to="/connect" >Se connecter</router-link>
         </div>
-        
-        <!-- <router-link ></router-link> -->
     </div>
 </template>
 
@@ -22,11 +20,12 @@
     .headbar{
         display: flex;
         justify-content: space-between;
-        background-color: #000;
+        
+        background: rgb(11,15,37);
+        background: radial-gradient(circle, rgba(11,15,37,1) 0%, rgba(8,27,56,0.756827731092437) 135%);
         color: #fff;
         padding: 10px;
         text-decoration: none;
-        margin: 10px;
     }
 
     .link{
