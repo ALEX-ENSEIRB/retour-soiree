@@ -16,6 +16,10 @@
 
 body,
 html {
-  overflow-y: hidden;
+  overflow-x: hidden;
   background: url(assets/star.svg);
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

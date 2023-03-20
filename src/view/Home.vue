@@ -2,8 +2,8 @@
     <div class="main">
         <h2>UB'EIRB</h2>
         <p v-for="actor in data" :key="actor">
-            {{actor.NOM}}
-            {{actor.PRENOM}}
+            {{ actor.NOM }}
+            {{ actor.PRENOM }}
         </p>
         <div class="slogan">
             <div class="slogan_text">
@@ -33,12 +33,23 @@ const api_url = ref('')
 </script>
 
 <style>
-.main{
+.main {
     color: #fff;
     height: 100vh;
     display: flex;
     align-items: center;
     flex-direction: column;
+    overflow-y: scroll;
+}
+
+.slogan {
+    width: 75%;
+    height: 100%;
+    padding: 20px;
+    margin: auto;
+    background-image: linear-gradient(135deg, #02065aee, #024775ee);
+    background-color: initial;
+    border-radius: 50px;
 }
 .slogan{
     width: 60%;
