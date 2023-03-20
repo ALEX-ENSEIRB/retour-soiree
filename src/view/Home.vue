@@ -39,7 +39,6 @@ const api_url = ref('')
     display: flex;
     align-items: center;
     flex-direction: column;
-    overflow-y: scroll;
 }
 
 .slogan {
