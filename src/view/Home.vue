@@ -2,9 +2,10 @@
     <div class="main">
         <h2>RETOUR SOIREE</h2>
         <p v-for="actor in data" :key="actor">
-            {{actor.NOM}}
-            {{actor.PRENOM}}
+            {{ actor.NOM }}
+            {{ actor.PRENOM }}
         </p>
+
     </div>
 </template>
 
@@ -16,27 +17,27 @@ const data = ref([])
 const api_url = ref('')
 
 
-onMounted(async () => {
-    await fetch("../../conf.json").then(res => res.json()).then(res => {
-    api_url.value = res.api_url
-    console.log(api_url.value)})    
-
-    await axios.get(api_url.value + 'get_actors.php').then(res => {
-        data.value = res.data
-        console.log(data.value)
-    })
-})
-
 
 
 </script>
 
 <style>
-.main{
+.main {
     color: #fff;
     height: 100vh;
     display: flex;
     align-items: center;
     flex-direction: column;
+    overflow-y: scroll;
+}
+
+.slogan {
+    width: 75%;
+    height: 100%;
+    padding: 20px;
+    margin: auto;
+    background-image: linear-gradient(135deg, #02065aee, #024775ee);
+    background-color: initial;
+    border-radius: 50px;
 }
 </style>
