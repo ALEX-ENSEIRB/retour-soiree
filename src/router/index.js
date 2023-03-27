@@ -4,6 +4,7 @@ import CreateRide from '../view/CreateRide.vue';
 import SearchRide from '../view/SearchRide.vue';
 import Historic from '../view/Historic.vue';
 import Connect from '../view/Connect.vue';
+import Register from '../view/Register.vue';
 
 const routes = [
     {
@@ -30,6 +31,11 @@ const routes = [
         path: '/connect',
         name: 'Connect',
         component: Connect,
+    },   
+    {
+        path: '/register',
+        name: 'Register',
+        component: Register,
     }
 ];
 
