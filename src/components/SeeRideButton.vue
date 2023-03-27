@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="see-ride-button">
-            <button class="see-ride-button__button" @click="seeRide">
+            <button class="see-ride-button__button">
                 <span class="see-ride-button__button__text">Voir Trajet</span>
             </button>
         </div>

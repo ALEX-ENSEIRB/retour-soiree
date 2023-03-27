@@ -108,15 +108,15 @@ const newTrip = ref({})
 const createTrip = () => {
     clearErrors()
 
-    if(startingZone.value === null) {
+    if (startingZone.value === null) {
         createError('Veuillez choisir une zone de départ');
     }
-    if(endingZone.value === null) {
+    if (endingZone.value === null) {
         createError('Veuillez choisir une zone d\'arrivée');
     }
 
     newTrip.value = {
-        
+
         address_start: {
             address: address_start.value,
             zone: startingZone.value
@@ -202,7 +202,7 @@ const zones = ref([
 </script>
 
 <style>
-#errors{
+#errors {
     display: flex;
     flex-direction: column;
     align-items: center;
