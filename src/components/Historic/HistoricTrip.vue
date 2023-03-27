@@ -1,12 +1,12 @@
 <template>
-    <div class="container_trip" :id="trip.id">
+    <div class="container_trip my-4 overflow-y-hidden" :id="trip.id">
         <div class="info_trip">
             <p>Depart : {{ trip.departTime.toLocaleTimeString('fr-FR') }} {{ trip.departTime.toLocaleDateString('fr-FR') }}
             </p>
             <p>Arrivée : {{ trip.arrivalTime.toLocaleTimeString('fr-FR') }} {{ trip.arrivalTime.toLocaleDateString('fr-FR')
             }}</p>
             <p>Nombre de places : 3</p>
-            <SeeRideButton @click="seeRide" />
+            <SeeRideButton @click="seeRide" :status="tripStatus" />
         </div>
         <div class="vl"></div>
         <div class="drive_comment">
@@ -15,7 +15,7 @@
                 <TripComments :trip="trip"/>
             </div>
             <div v-else>
-                <TripMessages />
+                <TripMessages :trip="trip"/>
             </div>
         </div>
     </div>
@@ -25,12 +25,14 @@
 import SeeRideButton from '../SeeRideButton.vue';
 import TripComments from './TripComments.vue';
 import TripMessages from './TripMessages.vue';
+import { ref } from 'vue';
+
+const tripStatus = ref(false)
 
 const seeRide = () => {
-    console.log('seeRide')
+    tripStatus.value = !tripStatus.value
     const trip = document.getElementById(props.trip.id)
     trip.classList.toggle('active')
-    console.log(trip)
 }
 
 const props = defineProps({
@@ -42,12 +44,13 @@ const props = defineProps({
 
 const isFinished = () => {
 
-    console.log(props.trip.messages)
     if(props.trip.arrivalTime == null || props.trip.arrivalTime == undefined || isNaN(props.trip.arrivalTime)){
         return false
     }
     return props.trip.arrivalTime < new Date()
 }
+
+
 </script>
 
 <style>
@@ -60,7 +63,6 @@ const isFinished = () => {
     margin: 20px;
     /*padding: 20px;*/
     color: #000;
-    max-height: 30%;
 }
 
 .info_trip {
@@ -72,8 +74,7 @@ const isFinished = () => {
 
 .active {
     width: 100%;
-    height: 100%;
-    max-height: 100%;
+    min-height: 100%;
     justify-content: space-between;
     /* transition */
     transition: all 0.5s ease-in-out;
