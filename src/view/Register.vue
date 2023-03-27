@@ -1,45 +1,81 @@
 <template>
     <div class="create_ride_container">
-        <h1>Se connecter</h1>
+        <h1>Inscription</h1>
         <div id="errors">
 
         </div>
         <div class="w-2/3 flex center flex-col create_ride_form">
             <div class="address flex justify-between ">
                 <div class="address_start form_input w-2/5">
-                    <div class="address_content mb-5">
-                        <label class="block uppercase text-white-700 text-xs font-bold mb-2">
-                            Identifiant
+                    <div class="name">
+                        <label class="label_name">
+                            Nom
                         </label>
-                        <input v-model="address_start"
+                        <input v-model="name"
                             class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            id="grid-first-name" type="text" placeholder="">
-                            <a href="" class="text-white-700 text-xs font-bold mb-2">Identifiant oublié?</a>
+                            id="grid-first-name" type="text" placeholder="Guillemot">
                     </div>
-                    
+                    <div class="address_end form_input w-2/5">
+                        <div class="firstname">
+                            <label class="label_firstname">
+                                Prénom
+                            </label>
+                            <input v-model="firstname"
+                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                                id="grid-first-name" type="text" placeholder="Julien">
+                        </div>
+                    </div>
+                    <div class="address_end form_input w-2/5">
+                        <div class="firstname">
+                            <label class="label_firstname">
+                                Date de naissance
+                            </label>
+                            <input v-model="firstname"
+                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                                id="grid-first-name" type="date" placeholder="">
+                        </div>
+                    </div>
+
                 </div>
                 <div class="address_end form_input w-2/5">
-                    <div class="address_content mb-5">
-                        <label class="block uppercase text-white-700 text-xs font-bold mb-2">
-                            Mot de passe
+                    <div class="firstname">
+                        <label class="label_firstname">
+                            Adresse électronique
                         </label>
-                        <input v-model="address_end"
+                        <input v-model="firstname"
                             class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            id="grid-first-name" type="password" placeholder="">
-                            <a href="" class="text-white-700 text-xs font-bold mb-2">Mot de passe oublié?</a>
+                            id="grid-first-name" type="text" placeholder="exemple.email@exemple.fr">
+                    </div>
+                    <div class="address_end form_input w-2/5">
+                        <div class="firstname">
+                            <label class="label_firstname">
+                                Numéro de téléphone
+                            </label>
+                            <input v-model="firstname"
+                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                                id="grid-first-name" type="text" placeholder="ex: 06 66 66 66 66">
+                        </div>
+                    </div>
+                    <div class="address_end form_input w-2/5">
+                        <div class="firstname">
+                            <label class="label_firstname">
+                                Lieu de résidence
+                            </label>
+                            <input v-model="firstname"
+                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                                id="grid-first-name" type="text" placeholder="3 Rue de L'exemple, 33130 Bègles">
+                        </div>
                     </div>
                     
                 </div>
             </div>
             <div class="connex">
                     <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Se connecter
+                        S'Inscrire
                     </button>
                    
                 
             </div>
-            <router-link class="link-register" to="/register" >Pas encore inscrit?</router-link>
-            
         </div>
     </div>
 </template>
@@ -152,6 +188,7 @@ const zones = ref([
         name: 'Zone 5'
     }
 ])
+
 </script>
 
 <style>
@@ -180,16 +217,5 @@ const zones = ref([
 
 .form_input {
     margin-bottom: 20px;
-}
-.connex{
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-.link-register{
-    margin-top: 20px;
-    color: #fff;
-    text-decoration: underline;
-    text-align: center;
 }
 </style>
