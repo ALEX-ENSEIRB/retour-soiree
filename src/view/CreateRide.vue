@@ -105,6 +105,14 @@ const endingZone = ref(null)
 
 const newTrip = ref({})
 
+onMounted(async () => {
+    console.log('mounted')
+    await createRide(newTrip).then(() => {
+        console.log('trip created')
+    })
+
+})
+
 const createTrip = () => {
     clearErrors()
 
