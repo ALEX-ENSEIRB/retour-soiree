@@ -61,6 +61,56 @@ const mockTrips = [
                     email: '',
                 }
             },
+        ],
+        comments: [
+            {
+                id: 1,
+                content: 'Bonjour',
+                date: new Date(),
+                user: {
+                    id: 1,
+                    name: 'Jean',
+                    firstname: 'Dupont',
+                    email: '',
+                },
+                note: 5
+            },
+            {
+                id: 2,
+                content: 'Bonjour',
+                date: new Date(),
+                user: {
+                    id: 1,
+                    name: 'Jean',
+                    firstname: 'Dupont',
+                    email: '',
+                },
+                note: 5
+            },
+            {
+                id: 3,
+                content: 'Bonjour je suis un commentaire qui est vraiment très long pour voir comment ça va se comporter sur la page', 
+                date: new Date(),
+                user: {
+                    id: 1,
+                    name: 'Jean',
+                    firstname: 'Dupont',
+                    email: '',
+                },
+                note: 3
+            },
+            {
+                id: 4,
+                content: 'Bonjour je suis un commentaire',
+                date: new Date(),
+                user: {
+                    id: 1,
+                    name: 'Jean',
+                    firstname: 'Dupont',
+                    email: '',
+                },
+                note: 3
+            },
         ]
     }
 
@@ -71,7 +121,6 @@ const mockTrips = [
 <style>
 .historic {
     color: #fff;
-    height: 100vh;
     display: flex;
     align-items: center;
     flex-direction: column;
