@@ -6,37 +6,35 @@
                 <select
                     class="box"
                     name="" id="" v-model="startingZone">
-                    <option v-for="zone in zones" :value="zone" :key="zone.id">
-                        {{ zone.name }}
+                    <option v-for="zone in zones" :key="zone.ID_ZONE">
+                        {{ zone.NOM_ZONE }}
                     </option>
                 </select>
                 <select
                     class="box"
                     name="" id="" v-model="endingZone">
-                    <option v-for="zone in zones" :value="zone" :key="zone.id">
-                        {{ zone.name }}
+                    <option v-for="zone in zones" :key="zone.ID_ZONE">
+                        {{ zone.NOM_ZONE }}
                     </option>
                 </select>
                 <input class="box" type="datetime-local" placeholder="Date" v-model="depart_time"/>
                 <input class="box" type="number" placeholder="Nombre de places" v-model="nb_places" min="1" max="10" />
-                <input class="bsearch" type="submit" placeholder="Rechercher"/>
-
-
-
-            </div>
+                <input class="bsearch" type="submit" placeholder="Rechercher" v-on:click="search()"/>
+            </div> 
         </div>
     
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-// import {postTrip} from '../api/create-trip';
+import { onMounted, reactive, ref } from 'vue';
+import searchTrip from '../api/search-trip.js';
 
 const address_start = ref('')
 const address_end = ref('')
 const nb_places = ref(1)
 const depart_time = ref('')
+// const zones = ref([])
 
 const selectedEvent = ref(null)
 const startingZone = ref(null)
@@ -44,11 +42,30 @@ const endingZone = ref(null)
 
 const newTrip = ref({})
 
+let zones = reactive([])
+
+onMounted(async () => {
+    console.log('mounted')
+    await searchTrip(newTrip).then((result) => {
+        result.forEach(element => {
+            zones.push(element)
+        });
+        
+    })
+    console.log(zones)
+})
+
+const search = () => {
+    console.log('search')
+    console.log(startingZone.value)
+    // createTrip()
+}
+
 const createTrip = () => {
 
     newTrip.value = {
         
-        address_start: {
+         address_start: {
             address: address_start.value,
             zone: startingZone.value
         },
@@ -93,28 +110,6 @@ const events = ref([
     }
 ])
 
-const zones = ref([
-    {
-        id: 1,
-        name: 'Zone 1'
-    },
-    {
-        id: 2,
-        name: 'Zone 2'
-    },
-    {
-        id: 3,
-        name: 'Zone 3'
-    },
-    {
-        id: 4,
-        name: 'Zone 4'
-    },
-    {
-        id: 5,
-        name: 'Zone 5'
-    }
-])
 </script>
 
 <style>

@@ -105,9 +105,6 @@ const data = reactive({
     endingZone: null,
 })
 
-onMounted(async () => {
-    
-})
 
 const createTripHandler = async () => {
     clearErrors()
