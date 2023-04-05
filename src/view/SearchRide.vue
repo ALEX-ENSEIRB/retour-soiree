@@ -22,13 +22,13 @@
                 <input class="bsearch" type="submit" placeholder="Rechercher" v-on:click="search()"/>
             </div> 
         </div>
-    
+        
     </div>
 </template>
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
-import searchTrip from '../api/search-trip.js';
+import {searchTrip, searchZones}  from '../api/search-trip.js';
 
 const address_start = ref('')
 const address_end = ref('')
@@ -46,13 +46,17 @@ let zones = reactive([])
 
 onMounted(async () => {
     console.log('mounted')
-    await searchTrip(newTrip).then((result) => {
+    await searchZones().then((result) => {
         result.forEach(element => {
             zones.push(element)
         });
-        
     })
     console.log(zones)
+    await searchTrip().then((result) => {
+        result.forEach(element => {
+            console.log(element)
+        });
+    })
 })
 
 const search = () => {

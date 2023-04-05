@@ -11,5 +11,9 @@ const searchTrip = async (trip) => {
     const response = await axios.get(API_URL + "search_trip.php");
     return response.data;
 }
+const searchZones = async (trip) => {
+    const response = await axios.get(API_URL + "search_zone.php");
+    return response.data;
+}
 
-export default searchTrip;
+export {searchTrip, searchZones};
