@@ -46,7 +46,6 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-// import {postTrip} from '../api/create-trip';
 
 const address_start = ref('')
 const address_end = ref('')
@@ -86,7 +85,6 @@ const createTrip = () => {
         newTrip.value.event = selectedEvent.value
     }
     console.log(newTrip.value)
-    postTrip(newTrip)
 }
 
 const clearErrors = () => {

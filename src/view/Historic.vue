@@ -1,5 +1,5 @@
 <template>
-    <div class="historic">
+    <div class="historic p-3">
         <h2 class="titre">Historique</h2>
         <div class="historic_text">
             <p>Vous pouvez retrouver ici l'historique de vos trajets</p>

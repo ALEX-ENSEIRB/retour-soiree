@@ -82,7 +82,6 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-// import {postTrip} from '../api/create-trip';
 
 const address_start = ref('')
 const address_end = ref('')

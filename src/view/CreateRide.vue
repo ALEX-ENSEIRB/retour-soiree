@@ -11,7 +11,7 @@
                         <label class="block uppercase text-white-700 text-xs font-bold mb-2">
                             Address de départ
                         </label>
-                        <input v-model="address_start"
+                        <input v-model="data.address_start"
                             class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
                             id="grid-first-name" type="text" placeholder="3 Rue de L'exemple, 33130 Bègles">
                     </div>
@@ -21,7 +21,7 @@
                         </label>
                         <select
                             class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            name="" id="" v-model="startingZone">
+                            name="" id="" v-model="data.startingZone">
                             <option v-for="zone in zones" :value="zone" :key="zone.id">
                                 {{ zone.name }}
                             </option>
@@ -33,7 +33,7 @@
                         <label class="block uppercase text-white-700 text-xs font-bold mb-2">
                             Address d'arrivée
                         </label>
-                        <input v-model="address_end"
+                        <input v-model="data.address_end"
                             class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
                             id="grid-first-name" type="text" placeholder="3 Rue de L'exemple, 33130 Bègles">
                     </div>
@@ -43,7 +43,7 @@
                         </label>
                         <select
                             class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            name="" id="" v-model="endingZone">
+                            name="" id="" v-model="data.endingZone">
                             <option v-for="zone in zones" :value="zone" :key="zone.id">
                                 {{ zone.name }}
                             </option>
@@ -56,7 +56,7 @@
                 <label class="block uppercase text-white-700 text-xs font-bold mb-2">
                     Nombre de places
                 </label>
-                <input v-model="nb_places"
+                <input v-model="data.nb_places"
                     class="w-1/3 bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
                     id="grid-first-name" type="number" placeholder="3" min="1" max="10">
             </div>
@@ -64,7 +64,7 @@
                 <label class="block uppercase text-white-700 text-xs font-bold mb-2">
                     Heure de départ
                 </label>
-                <input v-model="depart_time"
+                <input v-model="data.depart_time"
                     class="w-1/3 bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
                     id="grid-first-name" type="datetime-local">
             </div>
@@ -74,14 +74,14 @@
                 </label>
                 <select
                     class="w-1/3 bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                    name="" id="" v-model="selectedEvent">
+                    name="" id="" v-model="data.selectedEvent">
                     <option v-for="event in events" :value="event" :key="event.id">
                         {{ event.name }}
                     </option>
                 </select>
             </div>
             <div class="submit_group flex justify-center  form_input">
-                <button @click="createTrip"
+                <button @click="createTripHandler"
                     class="w-1/3 submit bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded">
                     Créer
                 </button>
@@ -91,56 +91,52 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-// import {postTrip} from '../api/create-trip';
+import { onMounted, ref, reactive } from 'vue';
+import createTrip from '../api/create-trip.js';
+import router from '../router/index.js';
 
-const address_start = ref('')
-const address_end = ref('')
-const nb_places = ref(1)
-const depart_time = ref('')
-
-const selectedEvent = ref(null)
-const startingZone = ref(null)
-const endingZone = ref(null)
-
-const newTrip = ref({})
-
-onMounted(async () => {
-    console.log('mounted')
-    await createRide(newTrip).then(() => {
-        console.log('trip created')
-    })
-
+const data = reactive({
+    address_start: '',
+    address_end: '',
+    nb_places: 1,
+    depart_time: '',
+    selectedEvent: null,
+    startingZone: null,
+    endingZone: null,
 })
 
-const createTrip = () => {
+
+const createTripHandler = async () => {
     clearErrors()
-
-    if (startingZone.value === null) {
+    let hasError = false;
+    if (data.startingZone === null) {
         createError('Veuillez choisir une zone de départ');
+        hasError = true;
     }
-    if (endingZone.value === null) {
+    if (data.endingZone === null) {
         createError('Veuillez choisir une zone d\'arrivée');
+        hasError = true;
     }
 
-    newTrip.value = {
+    if (hasError) {
+        return;
+    }
+    const formData = new FormData();
+    formData.append('address_start', data.address_start);
+    formData.append('address_end', data.address_end);
+    formData.append('id_zone_start', data.startingZone.id);
+    formData.append('id_zone_end', data.endingZone.id);
 
-        address_start: {
-            address: address_start.value,
-            zone: startingZone.value
-        },
-        address_end: {
-            address: address_end.value,
-            zone: endingZone.value
-        },
-        nb_places: nb_places.value,
-        depart_time: depart_time.value,
+    
+    formData.append('nb_places', data.nb_places);
+    formData.append('date_trajet', data.depart_time);
+    if (data.selectedEvent !== null) {
+        formData.append('event', data.selectedEvent.id);
     }
-    if (selectedEvent.value !== null) {
-        newTrip.value.event = selectedEvent.value
-    }
-    console.log(newTrip.value)
-    postTrip(newTrip)
+    console.log(formData)
+    
+    await createTrip(formData);
+    router.push('/')
 }
 
 const clearErrors = () => {
@@ -196,14 +192,6 @@ const zones = ref([
     {
         id: 3,
         name: 'Zone 3'
-    },
-    {
-        id: 4,
-        name: 'Zone 4'
-    },
-    {
-        id: 5,
-        name: 'Zone 5'
     }
 ])
 

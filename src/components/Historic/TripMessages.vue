@@ -2,7 +2,7 @@
     <div>
         <div class="comments flex flex-col my-8 border-2 rounded-lg w-4/5 h-full" v-for="message in trip.messages">
             <div class="commmentHeader flex justify-evenly ">
-                <div class="commentAuthor w-1/3">
+                <div class="commentAuthor w-1/3 flex justify-evenly">
                     <div class="commentAuthorName">{{ message.user.name }}</div>
                     <div class="commentAuthorFirstname">{{ message.user.firstname }}</div>
                 </div>
