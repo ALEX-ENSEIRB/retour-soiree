@@ -4,14 +4,14 @@
         <div id="errors">
 
         </div>
-        <div class="w-2/3 flex center flex-col create_ride_form">
-            <div class="address flex justify-between ">
+        <div class="flex center create_ride_form justify-around">
+            <div class="address flex flex-col justify-between ">
                 <div class="address_start form_input w-2/5">
                     <div class="name">
                         <label class="label_name">
                             Nom
                         </label>
-                        <input v-model="name"
+                        <input v-model="data.name"
                             class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
                             id="grid-first-name" type="text" placeholder="Guillemot">
                     </div>
@@ -20,108 +20,94 @@
                             <label class="label_firstname">
                                 Prénom
                             </label>
-                            <input v-model="firstname"
+                            <input v-model="data.firstname"
                                 class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
                                 id="grid-first-name" type="text" placeholder="Julien">
                         </div>
                     </div>
-                    <div class="address_end form_input w-2/5">
-                        <div class="firstname">
-                            <label class="label_firstname">
-                                Date de naissance
-                            </label>
-                            <input v-model="firstname"
-                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                                id="grid-first-name" type="date" placeholder="">
-                        </div>
-                    </div>
-
                 </div>
+            </div>
+            <div class="flex flex-col">
                 <div class="address_end form_input w-2/5">
-                    <div class="firstname">
-                        <label class="label_firstname">
+                    <div class="email">
+                        <label class="label_email">
                             Adresse électronique
                         </label>
-                        <input v-model="firstname"
+                        <input v-model="data.email"
                             class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
                             id="grid-first-name" type="text" placeholder="exemple.email@exemple.fr">
                     </div>
-                    <div class="address_end form_input w-2/5">
-                        <div class="firstname">
-                            <label class="label_firstname">
-                                Numéro de téléphone
-                            </label>
-                            <input v-model="firstname"
-                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                                id="grid-first-name" type="text" placeholder="ex: 06 66 66 66 66">
-                        </div>
+                </div>
+                <div class="password form_input w-2/5">
+                    <div class="password">
+                        <label class="label_password">
+                            Mot de passe
+                        </label>
+                        <input v-model="data.password"
+                            class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                            id="grid-first-name" type="password">
                     </div>
-                    <div class="address_end form_input w-2/5">
-                        <div class="firstname">
-                            <label class="label_firstname">
-                                Lieu de résidence
-                            </label>
-                            <input v-model="firstname"
-                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                                id="grid-first-name" type="text" placeholder="3 Rue de L'exemple, 33130 Bègles">
-                        </div>
+                </div>
+                <div class="address_end form_input w-2/5">
+                    <div class="phone">
+                        <label class="label_phone">
+                            Numéro de téléphone
+                        </label>
+                        <input v-model="data.phone"
+                            class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                            id="grid-first-name" type="text" placeholder="ex: 06 66 66 66 66">
                     </div>
-                    
                 </div>
             </div>
-            <div class="connex">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        S'Inscrire
-                    </button>
-                   
-                
-            </div>
+        </div>
+        <div class="connection">
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                v-on:click="createUserhandler()">
+                S'Inscrire
+            </button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
+import createUser from '../api/create-user';
 
-const address_start = ref('')
-const address_end = ref('')
-const nb_places = ref(1)
-const depart_time = ref('')
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const selectedEvent = ref(null)
-const startingZone = ref(null)
-const endingZone = ref(null)
+let data = reactive({
+    name: '',
+    firstname: '',
+    email: '',
+    phone: '',
+    password: ''
+});
 
-const newTrip = ref({})
-
-const createTrip = () => {
+const createUserhandler = async () => {
     clearErrors()
+    let hasError = false;
+    if (data.phone.length !== 10) {
+        createError('Veuillez choisir un numéro valide');
+        hasError = true;
+    }
+    if (emailRegex.test(data.email) === false) {
+        createError('Veuillez choisir un email valide');
+        hasError = true;
+    }
 
-    if(startingZone.value === null) {
-        createError('Veuillez choisir une zone de départ');
-    }
-    if(endingZone.value === null) {
-        createError('Veuillez choisir une zone d\'arrivée');
+    if (hasError) {
+        return;
     }
 
-    newTrip.value = {
-        
-        address_start: {
-            address: address_start.value,
-            zone: startingZone.value
-        },
-        address_end: {
-            address: address_end.value,
-            zone: endingZone.value
-        },
-        nb_places: nb_places.value,
-        depart_time: depart_time.value,
-    }
-    if (selectedEvent.value !== null) {
-        newTrip.value.event = selectedEvent.value
-    }
-    console.log(newTrip.value)
-    postTrip(newTrip)
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('firstname', data.firstname);
+    formData.append('email', data.email);
+    formData.append('phone', data.phone);
+    formData.append('password', data.password);
+    console.log(formData);
+    const response = await createUser(formData);
+    console.log(response);
 }
 
 const clearErrors = () => {
@@ -137,61 +123,10 @@ const createError = (content) => {
 
     errors.appendChild(error)
 }
-
-const events = ref([
-    {
-        id: null,
-        name: 'Aucun'
-    },
-    {
-        id: 1,
-        name: 'Event 1'
-    },
-    {
-        id: 2,
-        name: 'Event 2'
-    },
-    {
-        id: 3,
-        name: 'Event 3'
-    },
-    {
-        id: 4,
-        name: 'Event 4'
-    },
-    {
-        id: 5,
-        name: 'Event 5'
-    }
-])
-
-const zones = ref([
-    {
-        id: 1,
-        name: 'Zone 1'
-    },
-    {
-        id: 2,
-        name: 'Zone 2'
-    },
-    {
-        id: 3,
-        name: 'Zone 3'
-    },
-    {
-        id: 4,
-        name: 'Zone 4'
-    },
-    {
-        id: 5,
-        name: 'Zone 5'
-    }
-])
-
 </script>
 
 <style>
-#errors{
+#errors {
     display: flex;
     flex-direction: column;
     align-items: center;
