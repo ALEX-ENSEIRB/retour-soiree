@@ -15,7 +15,7 @@
                             class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
                             id="grid-first-name" type="text" placeholder="Guillemot">
                     </div>
-                    <div class="address_end form_input w-2/5">
+                    <div class="address_end">
                         <div class="firstname">
                             <label class="label_firstname">
                                 Prénom
@@ -25,17 +25,6 @@
                                 id="grid-first-name" type="text" placeholder="Julien">
                         </div>
                     </div>
-                    <div class="address_end form_input w-2/5">
-                        <div class="firstname">
-                            <label class="label_firstname">
-                                Date de naissance
-                            </label>
-                            <input v-model="firstname"
-                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                                id="grid-first-name" type="date" placeholder="">
-                        </div>
-                    </div>
-
                 </div>
                 <div class="address_end form_input w-2/5">
                     <div class="firstname">
@@ -46,29 +35,31 @@
                             class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
                             id="grid-first-name" type="text" placeholder="exemple.email@exemple.fr">
                     </div>
-                    <div class="address_end form_input w-2/5">
+                    <div class="address_end">
+                        <div class="firstname">
+                            <label class="label_firstname">
+                                Mot de passe
+                            </label>
+                            <input v-model="firstname"
+                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                                id="grid-first-name" type="password" placeholder="ex: Mot de passe">
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+            </div>
+            <div class="address_end">
                         <div class="firstname">
                             <label class="label_firstname">
                                 Numéro de téléphone
                             </label>
                             <input v-model="firstname"
                                 class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                                id="grid-first-name" type="text" placeholder="ex: 06 66 66 66 66">
+                                id="grid-first-name" type="text" placeholder="ex: 06 06 06 06 06">
                         </div>
                     </div>
-                    <div class="address_end form_input w-2/5">
-                        <div class="firstname">
-                            <label class="label_firstname">
-                                Lieu de résidence
-                            </label>
-                            <input v-model="firstname"
-                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                                id="grid-first-name" type="text" placeholder="3 Rue de L'exemple, 33130 Bègles">
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
             <div class="connex">
                     <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         S'Inscrire
