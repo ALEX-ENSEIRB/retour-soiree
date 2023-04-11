@@ -17,16 +17,24 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 // Insert the new user into the users table
 $requete = "INSERT INTO etudiants (NOM_ETUDIANT, PRENOM_ETUDIANT, MAIL_ETUDIANT, NOTEL_ETUDIANT, MOT_DE_PASSE) VALUES ('$name', '$firstname', '$email', '$phone', '$hashed_password')";
-$res = $connection->query($requete);
 
-// Check if the insertion was successful
-if ($res) {
-    http_response_code(201);
-    echo json_encode(array("message" => "User registered successfully."));
-} else {
-    http_response_code(500);
-    echo json_encode(array("message" => "Error registering user."));
+try {
+    $res = $connection->query($requete);
+    // Check if the insertion was successful
+    if ($res) {
+        http_response_code(201);
+        echo json_encode(array("message" => "User registered successfully."));
+    }
+} catch (\Throwable $th) {
+    if($th->getCode() == 1062) {
+        http_response_code(409);
+        echo json_encode(array("message" => "User already exists."));
+    }else {
+        http_response_code(500);
+        echo json_encode(array("message" => $th->getCode()));
+    }
 }
+
 
 $connection->close();
 ?>

@@ -1,66 +1,67 @@
 <template>
-    <div class="create_ride_container">
-        <h1>Inscription</h1>
-        <div id="errors">
-
-        </div>
-        <div class="flex center create_ride_form justify-around">
-            <div class="address flex flex-col justify-between ">
-                <div class="address_start form_input w-2/5">
-                    <div class="name">
-                        <label class="label_name">
-                            Nom
-                        </label>
-                        <input v-model="data.name"
-                            class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            id="grid-first-name" type="text" placeholder="Guillemot">
-                    </div>
-                    <div class="address_end form_input w-2/5">
-                        <div class="firstname">
-                            <label class="label_firstname">
-                                Prénom
+    <div class=" flex flex-col  items-center">
+        <div class="w-3/4 flex flex-col">
+            <h1>Inscription</h1>
+            <div id="errors">
+            </div>
+            <div class="flex center justify-around">
+                <div class="flex flex-col justify-between ">
+                    <div class="form_input w-2/5">
+                        <div>
+                            <label>
+                                Nom
                             </label>
-                            <input v-model="data.firstname"
-                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                                id="grid-first-name" type="text" placeholder="Julien">
+                            <input v-model="data.name"
+                                class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                                type="text" placeholder="Guillemot">
+                        </div>
+                        <div>
+                            <div>
+                                <label>
+                                    Prénom
+                                </label>
+                                <input v-model="data.firstname"
+                                    class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                                    type="text" placeholder="Julien">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex flex-col">
-                <div class="address_end form_input w-2/5">
-                    <div class="email">
-                        <label class="label_email">
-                            Adresse électronique
-                        </label>
-                        <input v-model="data.email"
-                            class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            id="grid-first-name" type="text" placeholder="exemple.email@exemple.fr">
+                <div class="flex flex-col">
+                    <div class="form_input w-2/5">
+                        <div>
+                            <label>
+                                Adresse électronique
+                            </label>
+                            <input v-model="data.email"
+                                class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                                type="text" placeholder="exemple.email@exemple.fr">
+                        </div>
+                        <div>
+                            <div>
+                                <label>
+                                    Mot de passe
+                                </label>
+                                <input v-model="data.password"
+                                    class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
+                                    type="password" placeholder="ex: Mot de passe">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="password form_input w-2/5">
-                    <div class="password">
-                        <label class="label_password">
-                            Mot de passe
-                        </label>
-                        <input v-model="data.password"
-                            class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            id="grid-first-name" type="password">
-                    </div>
-                </div>
-                <div class="address_end form_input w-2/5">
-                    <div class="phone">
-                        <label class="label_phone">
+                <div>
+                    <div>
+                        <label>
                             Numéro de téléphone
                         </label>
                         <input v-model="data.phone"
                             class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            id="grid-first-name" type="text" placeholder="ex: 06 66 66 66 66">
+                            type="text" placeholder="ex: 06 06 06 06 06">
                     </div>
                 </div>
             </div>
         </div>
-        <div class="connection">
+        <div>
             <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                 v-on:click="createUserhandler()">
                 S'Inscrire
@@ -72,6 +73,13 @@
 <script setup>
 import { onMounted, ref, reactive } from 'vue';
 import createUser from '../api/create-user';
+import router from '../router/index.js';
+
+onMounted(() => {
+    if (localStorage.getItem('connected') === 'true') {
+        router.push('/');
+    }
+});
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -94,6 +102,14 @@ const createUserhandler = async () => {
         createError('Veuillez choisir un email valide');
         hasError = true;
     }
+    if (data.name.length < 0) {
+        createError('Veuillez choisir un nom valide');
+        hasError = true;
+    }
+    if (data.firstname.length < 0) {
+        createError('Veuillez choisir un prénom valide');
+        hasError = true;
+    }
 
     if (hasError) {
         return;
@@ -105,9 +121,14 @@ const createUserhandler = async () => {
     formData.append('email', data.email);
     formData.append('phone', data.phone);
     formData.append('password', data.password);
-    console.log(formData);
     const response = await createUser(formData);
-    console.log(response);
+    if (response.status === 201) {
+        router.push('/connect');
+    }else if (response.status === 409) {
+        createError('Cette addresse email est déjà utilisée');
+    }else {
+        createError('Une erreur est survenue');
+    }
 }
 
 const clearErrors = () => {
@@ -132,21 +153,6 @@ const createError = (content) => {
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
-}
-
-.create_ride_container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-
-}
-
-.create_ride_container h1 {
-    margin: 20px;
-    font-size: 2em;
-    font-weight: bold;
 }
 
 .form_input {

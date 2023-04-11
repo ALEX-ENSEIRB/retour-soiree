@@ -8,8 +8,8 @@ const API_URL = await fetch('/conf.json').then(async (response) => {
 });
 
 
-const createUser = async (user) => {
-    const response = await axios.post(API_URL + "create_user.php", user).then((response) => {
+const connectUser = async (user) => {
+    const response = await axios.post(API_URL + "connect_user.php", user).then((response) => {
         console.log(response);
         return response;
     }).catch((error) => {
@@ -19,4 +19,4 @@ const createUser = async (user) => {
     return response;
 }
 
-export default createUser;
+export default connectUser;

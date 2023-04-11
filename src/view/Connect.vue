@@ -1,5 +1,5 @@
 <template>
-    <div class="create_ride_container">
+    <div class="connect_container">
         <h1>Se connecter</h1>
         <div id="errors">
 
@@ -9,11 +9,11 @@
                 <div class="address_start form_input w-2/5">
                     <div class="address_content mb-5">
                         <label class="block uppercase text-white-700 text-xs font-bold mb-2">
-                            Identifiant
+                            Mail
                         </label>
-                        <input v-model="address_start"
+                        <input v-model="data.email"
                             class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            id="grid-first-name" type="text" placeholder="">
+                            type="text" placeholder="">
                             <a href="" class="text-white-700 text-xs font-bold mb-2">Identifiant oublié?</a>
                     </div>
                     
@@ -23,16 +23,17 @@
                         <label class="block uppercase text-white-700 text-xs font-bold mb-2">
                             Mot de passe
                         </label>
-                        <input v-model="address_end"
+                        <input v-model="data.password"
                             class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            id="grid-first-name" type="password" placeholder="">
+                            type="password" placeholder="">
                             <a href="" class="text-white-700 text-xs font-bold mb-2">Mot de passe oublié?</a>
                     </div>
                     
                 </div>
             </div>
             <div class="connex">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    v-on:click="connectHandler()">
                         Se connecter
                     </button>
                    
@@ -45,46 +46,45 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
+import connectUser from '../api/connect.js';
+import router from '../router/index.js';
 
-const address_start = ref('')
-const address_end = ref('')
-const nb_places = ref(1)
-const depart_time = ref('')
+onMounted(() => {
+    if (localStorage.getItem('connected') === 'true') {
+        router.push('/');
+    }
+});
 
-const selectedEvent = ref(null)
-const startingZone = ref(null)
-const endingZone = ref(null)
+let data = reactive({
+    email: '',
+    password: ''
+});
 
-const newTrip = ref({})
-
-const createTrip = () => {
+const connectHandler = async () => {
     clearErrors()
+    let hasError = false;
+    if (data.email === '') {
+        createError('Veuillez renseigner votre email');
+        hasError = true;
+    }
+    if (data.password === '') {
+        createError('Veuillez renseigner votre mot de passe');
+        hasError = true;
+    }
+    if (hasError) {
+        return;
+    }
 
-    if(startingZone.value === null) {
-        createError('Veuillez choisir une zone de départ');
-    }
-    if(endingZone.value === null) {
-        createError('Veuillez choisir une zone d\'arrivée');
-    }
+    const formData = new FormData();
+    formData.append('email', data.email);
+    formData.append('password', data.password);
 
-    newTrip.value = {
-        
-        address_start: {
-            address: address_start.value,
-            zone: startingZone.value
-        },
-        address_end: {
-            address: address_end.value,
-            zone: endingZone.value
-        },
-        nb_places: nb_places.value,
-        depart_time: depart_time.value,
+    const response = await connectUser(formData);
+    if(response.status === 200){
+        localStorage.setItem('connected', true);
+        window.location.href = '/'; //need to refresh page because header has to be remounted
     }
-    if (selectedEvent.value !== null) {
-        newTrip.value.event = selectedEvent.value
-    }
-    console.log(newTrip.value)
 }
 
 const clearErrors = () => {
@@ -101,55 +101,6 @@ const createError = (content) => {
     errors.appendChild(error)
 }
 
-const events = ref([
-    {
-        id: null,
-        name: 'Aucun'
-    },
-    {
-        id: 1,
-        name: 'Event 1'
-    },
-    {
-        id: 2,
-        name: 'Event 2'
-    },
-    {
-        id: 3,
-        name: 'Event 3'
-    },
-    {
-        id: 4,
-        name: 'Event 4'
-    },
-    {
-        id: 5,
-        name: 'Event 5'
-    }
-])
-
-const zones = ref([
-    {
-        id: 1,
-        name: 'Zone 1'
-    },
-    {
-        id: 2,
-        name: 'Zone 2'
-    },
-    {
-        id: 3,
-        name: 'Zone 3'
-    },
-    {
-        id: 4,
-        name: 'Zone 4'
-    },
-    {
-        id: 5,
-        name: 'Zone 5'
-    }
-])
 </script>
 
 <style>
@@ -161,7 +112,7 @@ const zones = ref([
     margin-bottom: 10px;
 }
 
-.create_ride_container {
+.connect_container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -170,7 +121,7 @@ const zones = ref([
 
 }
 
-.create_ride_container h1 {
+.connect_container h1 {
     margin: 20px;
     font-size: 2em;
     font-weight: bold;

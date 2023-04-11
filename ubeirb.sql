@@ -54,10 +54,10 @@ CREATE TABLE `commentaires_trajets` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `etudiants`
+-- Structure de la table `users`
 --
 
-CREATE TABLE `etudiants` (
+CREATE TABLE `users` (
   `NO_ETUDIANT` int(6) NOT NULL,
   `NOM_ETUDIANT` varchar(255) DEFAULT NULL,
   `PRENOM_ETUDIANT` varchar(255) DEFAULT NULL,
@@ -175,7 +175,7 @@ ALTER TABLE `commentaires_trajets`
 --
 -- Index pour la table `etudiants`
 --
-ALTER TABLE `etudiants`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`NO_ETUDIANT`);
 
 --
@@ -247,7 +247,7 @@ ALTER TABLE `commentaires_trajets`
 --
 -- AUTO_INCREMENT pour la table `etudiants`
 --
-ALTER TABLE `etudiants`
+ALTER TABLE `users`
   MODIFY `NO_ETUDIANT` int(6) NOT NULL AUTO_INCREMENT;
 
 --
@@ -288,14 +288,14 @@ ALTER TABLE `zones`
 -- Contraintes pour la table `commentaires_personnes`
 --
 ALTER TABLE `commentaires_personnes`
-  ADD CONSTRAINT `commentaires_personnes_ibfk_1` FOREIGN KEY (`NO_ETUDIANT_CIBLE`) REFERENCES `etudiants` (`NO_ETUDIANT`),
-  ADD CONSTRAINT `commentaires_personnes_ibfk_2` FOREIGN KEY (`NO_ETUDIANT_SOURCE`) REFERENCES `etudiants` (`NO_ETUDIANT`);
+  ADD CONSTRAINT `commentaires_personnes_ibfk_1` FOREIGN KEY (`NO_ETUDIANT_CIBLE`) REFERENCES `users` (`NO_ETUDIANT`),
+  ADD CONSTRAINT `commentaires_personnes_ibfk_2` FOREIGN KEY (`NO_ETUDIANT_SOURCE`) REFERENCES `users` (`NO_ETUDIANT`);
 
 --
 -- Contraintes pour la table `commentaires_trajets`
 --
 ALTER TABLE `commentaires_trajets`
-  ADD CONSTRAINT `commentaires_trajets_ibfk_1` FOREIGN KEY (`NO_ETUDIANT`) REFERENCES `etudiants` (`NO_ETUDIANT`),
+  ADD CONSTRAINT `commentaires_trajets_ibfk_1` FOREIGN KEY (`NO_ETUDIANT`) REFERENCES `users` (`NO_ETUDIANT`),
   ADD CONSTRAINT `commentaires_trajets_ibfk_2` FOREIGN KEY (`ID_TRAJET`) REFERENCES `trajets` (`ID_TRAJET`);
 
 --
@@ -308,14 +308,14 @@ ALTER TABLE `lieux`
 -- Contraintes pour la table `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`NO_ETUDIANT`) REFERENCES `etudiants` (`NO_ETUDIANT`),
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`NO_ETUDIANT`) REFERENCES `users` (`NO_ETUDIANT`),
   ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`ID_TRAJET`) REFERENCES `trajets` (`ID_TRAJET`);
 
 --
 -- Contraintes pour la table `participations`
 --
 ALTER TABLE `participations`
-  ADD CONSTRAINT `participations_ibfk_1` FOREIGN KEY (`NO_ETUDIANT`) REFERENCES `etudiants` (`NO_ETUDIANT`),
+  ADD CONSTRAINT `participations_ibfk_1` FOREIGN KEY (`NO_ETUDIANT`) REFERENCES `users` (`NO_ETUDIANT`),
   ADD CONSTRAINT `participations_ibfk_2` FOREIGN KEY (`ID_TRAJET`) REFERENCES `trajets` (`ID_TRAJET`);
 
 --
