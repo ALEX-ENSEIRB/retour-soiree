@@ -152,6 +152,7 @@ const events = ref([
         margin-right: 10px;
         padding-left: 10px;
         padding-right: 10px;
+        background: white;
     }
 
     .bsearch{

@@ -21,8 +21,8 @@
                         </label>
                         <select
                             class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            name="" id="" v-model="startingZone">
-                            <option v-for="zone in zones" :key="zone.ID_ZONE">
+                            name="" id="" v-model="data.startingZone">
+                            <option v-for="zone in zones" :key="zone.ID_ZONE" :value="zone.ID_ZONE">
                                 {{ zone.NOM_ZONE }}
                             </option>
                         </select>
@@ -43,8 +43,8 @@
                         </label>
                         <select
                             class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                            name="" id="" v-model="endingZone">
-                            <option v-for="zone in zones" :key="zone.ID_ZONE">
+                            name="" id="" v-model="data.endingZone">
+                            <option v-for="zone in zones" :key="zone.ID_ZONE" :value="zone.ID_ZONE">
                                 {{ zone.NOM_ZONE }}
                             </option>
                         </select>
@@ -74,7 +74,7 @@
                 </label>
                 <select
                     class="w-1/3 bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
-                    name="" id="" v-model="selectedEvent">
+                    name="" id="" v-model="data.selectedEvent">
                     <option v-for="event in events" :key="event.ID_EVENT">
                         {{ event.NOM_EVENT }}
                     </option>
@@ -128,8 +128,8 @@ const createTripHandler = async () => {
     const formData = new FormData();
     formData.append('address_start', data.address_start);
     formData.append('address_end', data.address_end);
-    formData.append('id_zone_start', data.startingZone.id);
-    formData.append('id_zone_end', data.endingZone.id);
+    formData.append('id_zone_start', parseInt(data.startingZone));
+    formData.append('id_zone_end', parseInt(data.endingZone));
 
     
     formData.append('nb_places', data.nb_places);
@@ -137,7 +137,6 @@ const createTripHandler = async () => {
     if (data.selectedEvent !== null) {
         formData.append('event', data.selectedEvent.id);
     }
-    console.log(formData)
     
     await createTrip(formData);
     router.push('/')

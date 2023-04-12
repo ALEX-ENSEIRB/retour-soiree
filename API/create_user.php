@@ -16,7 +16,7 @@ $password = $_POST['password'];
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 // Insert the new user into the users table
-$requete = "INSERT INTO etudiants (NOM_ETUDIANT, PRENOM_ETUDIANT, MAIL_ETUDIANT, NOTEL_ETUDIANT, MOT_DE_PASSE) VALUES ('$name', '$firstname', '$email', '$phone', '$hashed_password')";
+$requete = "INSERT INTO users (NOM_ETUDIANT, PRENOM_ETUDIANT, MAIL_ETUDIANT, NOTEL_ETUDIANT, MOT_DE_PASSE) VALUES ('$name', '$firstname', '$email', '$phone', '$hashed_password')";
 
 try {
     $res = $connection->query($requete);
