@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="button_trip">
-            <CreateRideButton />
+            <CreateRideButton v-if="isConnectedRef"/>
             <SearchRideButton />
         </div>
             
@@ -24,11 +24,15 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue';
 import CreateRideButton from '../components/CreateRideButton.vue';
 import SearchRideButton from '../components/SearchRideButton.vue';
+import User from '../Helper/User';
 
 const data = ref([])
 const api_url = ref('')
+const isConnectedRef = ref(false);
 
-
+onMounted( () => {
+    isConnectedRef.value = User.isConnected();
+})
 
 </script>
 

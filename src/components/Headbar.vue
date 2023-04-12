@@ -4,13 +4,15 @@
             <router-link class="link" to="/">Accueil</router-link>
         </div>
         <div class="createride">
-            <router-link class="link" to="/create-ride">Créer Trajet</router-link>
+            
             <router-link class="link" to="/search-ride">Rechercher Trajet</router-link>
-            <router-link class="link" to="/historic">Historique</router-link>
-            <div class="flex flex-col" v-if="!isConnected">
+            
+            <div class="flex flex-col" v-if="!isConnectedRef">
                 <router-link class="link" to="/connect">Se connecter</router-link>
             </div>
             <div v-else>
+                <router-link class="link" to="/create-ride">Créer Trajet</router-link>
+                <router-link class="link" to="/historic">Historique</router-link>
                 <button class="link" v-on:click="disconect()">Deconnexion</button>
             </div>
         </div>
@@ -20,21 +22,16 @@
 <script setup>
 import router from '../router';
 import { onMounted, ref } from 'vue';
+import User  from '../Helper/User';
 
-const isConnected = ref(false);
+const isConnectedRef = ref(false);
 
 onMounted(() => {
-    const connected = localStorage.getItem('connected');
-    if (connected === 'true') {
-        isConnected.value = true;
-    }else{
-        isConnected.value = false;
-    }
+    isConnectedRef.value = User.isConnected();
 });
 
 const disconect = () => {
-    localStorage.removeItem('connected');
-    isConnected.value = false;
+    isConnectedRef.value = User.disconect();
 }
 
 </script>

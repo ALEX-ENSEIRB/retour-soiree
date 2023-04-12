@@ -5,6 +5,7 @@ import SearchRide from '../view/SearchRide.vue';
 import Historic from '../view/Historic.vue';
 import Connect from '../view/Connect.vue';
 import Register from '../view/Register.vue';
+import User from '../Helper/User.js';
 
 const routes = [
     {
@@ -15,6 +16,12 @@ const routes = [
     {
         path: '/create-ride',
         name: 'CreateRide',
+        beforeEnter: async (to, from) => {
+            const isConnected = User.isConnected();
+            if (!isConnected) {
+                return { name: "Home" };
+            }
+        },
         component: CreateRide,
     },
     {
@@ -25,6 +32,12 @@ const routes = [
     {
         path: '/historic',
         name: 'Historic',
+        beforeEnter: async (to, from) => {
+            const isConnected = User.isConnected();
+            if (!isConnected) {
+                return { name: "Home" };
+            }
+        },
         component: Historic,
     },
     {
