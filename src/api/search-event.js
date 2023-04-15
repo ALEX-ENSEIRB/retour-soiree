@@ -1,14 +1,8 @@
 import axios from 'axios';
+import API_URL  from './api-url.js';
 
-const API_URL = await fetch('/conf.json').then(async (response) => {
-    const responseJson = await response.json().then((json) => {
-        return json.api_url
-    })
-    return responseJson;
-});
-console.log(API_URL);
 const searchEvent = async (trip) => {
-    const response = await axios.get(API_URL + "search_event.php");
+    const response = await axios.get(await API_URL + "event/search_event.php");
     return response.data;
 }
 

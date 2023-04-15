@@ -134,6 +134,7 @@ const createTripHandler = async () => {
     
     formData.append('nb_places', data.nb_places);
     formData.append('date_trajet', data.depart_time);
+    formData.append('id_user', JSON.parse(localStorage.getItem('user')).id);
     if (data.selectedEvent !== null) {
         formData.append('event', data.selectedEvent.id);
     }

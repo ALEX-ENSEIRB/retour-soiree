@@ -1,8 +1,8 @@
 <?php
-include "header.php";
-include "connect.php";
+include "../header/header.php";
+include "../header/connect.php";
 
-$sql = "SELECT *FROM zones";
+$sql = "SELECT * FROM evenements";
 $result = $connection->query($sql);
 $data = array();
 //récupere les données et les met dans un tableau

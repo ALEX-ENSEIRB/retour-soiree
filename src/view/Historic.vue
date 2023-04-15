@@ -4,118 +4,28 @@
         <div class="historic_text">
             <p>Vous pouvez retrouver ici l'historique de vos trajets</p>
         </div>
-        <HistoricTrip v-for="trip in mockTrips" :trip="trip" />
+        <Trip v-for="trip in trips" :trip="trip" />
     </div>
 </template>
 
 <script setup>
-import axios from 'axios'
-import { ref, onMounted } from 'vue';
-import HistoricTrip from '../components/Historic/HistoricTrip.vue'
+import { reactive, onMounted } from 'vue';
+import Trip from '../components/Trip/Trip.vue'
+import { searchTrip } from '../api/search-trip.js';
 
-const mockTrips = [
-    {
-        id: 1,
-        departTime: new Date(),
-        departAddress: '1 rue de la paix',
-        arrivalTime: new Date(),
-        arrivalAddress: '1 rue de la paix',
-        nb_places: 3,
-        driver: {
-            id: 1,
-            name: 'Jean',
-            firstname: 'Dupont',
-            email: '',
-        },
-        messages: [
-            {
-                id: 1,
-                content: 'Bonjour',
-                date: new Date(),
-                user: {
-                    id: 1,
-                    name: 'Jean',
-                    firstname: 'Dupont',
-                    email: '',
-                }
-            },
-            {
-                id: 2,
-                content: 'Bonjour',
-                date: new Date(),
-                user: {
-                    id: 1,
-                    name: 'Jean',
-                    firstname: 'Dupont',
-                    email: '',
-                }
-            },
-            {
-                id: 3,
-                content: 'Bonjour',
-                date: new Date(),
-                user: {
-                    id: 1,
-                    name: 'Jean',
-                    firstname: 'Dupont',
-                    email: '',
-                }
-            },
-        ],
-        comments: [
-            {
-                id: 1,
-                content: 'Bonjour',
-                date: new Date(),
-                user: {
-                    id: 1,
-                    name: 'Jean',
-                    firstname: 'Dupont',
-                    email: '',
-                },
-                note: 5
-            },
-            {
-                id: 2,
-                content: 'Bonjour',
-                date: new Date(),
-                user: {
-                    id: 1,
-                    name: 'Jean',
-                    firstname: 'Dupont',
-                    email: '',
-                },
-                note: 5
-            },
-            {
-                id: 3,
-                content: 'Bonjour je suis un commentaire qui est vraiment très long pour voir comment ça va se comporter sur la page', 
-                date: new Date(),
-                user: {
-                    id: 1,
-                    name: 'Jean',
-                    firstname: 'Dupont',
-                    email: '',
-                },
-                note: 3
-            },
-            {
-                id: 4,
-                content: 'Bonjour je suis un commentaire',
-                date: new Date(),
-                user: {
-                    id: 1,
-                    name: 'Jean',
-                    firstname: 'Dupont',
-                    email: '',
-                },
-                note: 3
-            },
-        ]
-    }
+let trips = reactive([])
 
-]
 
+onMounted(async () => {
+    await searchTrip().then((result) => {
+        result.forEach(element => {
+            //if userid in localhost is the same as the driver id, then add the trip to the list
+            if (element.driver.id == JSON.parse(localStorage.getItem('user')).id) {
+                trips.push(element)
+            }
+        });
+    })
+})
 </script>
 
 <style>

@@ -1,19 +1,15 @@
 import axios from 'axios';
+import API_URL  from './api-url.js';
 
-const API_URL = await fetch('/conf.json').then(async (response) => {
-    const responseJson = await response.json().then((json) => {
-        return json.api_url
-    })
-    return responseJson;
-});
-console.log(API_URL);
-const searchTrip = async (trip) => {
-    const response = await axios.get(API_URL + "search_trip.php");
+const searchTrip = async () => {
+    const response = await axios.get(await API_URL + "trip/search_trip.php");
     return response.data;
 }
-const searchZones = async (trip) => {
-    const response = await axios.get(API_URL + "search_zone.php");
+const searchZones = async () => {
+    const response = await axios.get(await API_URL + "zones/search_zone.php");
     return response.data;
 }
 
-export {searchTrip, searchZones};
+
+
+export { searchTrip, searchZones };

@@ -1,7 +1,7 @@
 <?php
 
-include "header.php";
-include "connect.php"; /* Le fichier connect.php contient les identifiants de connexion */
+include "../header/header.php";
+include "../header/connect.php";/* Le fichier connect.php contient les identifiants de connexion */
 
 //To create a trip first we need to insert the start and end point in the table lieux
 //Then we need to insert the trip in the table trajets
@@ -14,6 +14,7 @@ $address_start = $_POST['address_start'];
 $address_end = $_POST['address_end'];
 $zone_start = $_POST['id_zone_start'];
 $zone_end = $_POST['id_zone_end'];
+$id_user = $_POST['id_user'];
 
 $requete = "INSERT INTO lieux (adresse_lieu, id_zone) VALUES ('$address_start' , '$zone_start')";
 $res = $connection->query($requete);
@@ -40,5 +41,10 @@ if (isset($_POST['id_event']) && $_POST['id_event'] != 0) {
     $id_event = NULL;
 }
 
+$res = $connection->query($requete);
+$id_trip = $connection->insert_id;
+
+
+$requete = "INSERT INTO PARTICIPATIONS (id_trajet, no_etudiant, gestion) VALUES ('$id_trip', '$id_user', 'true')";
 echo $requete;
 $res = $connection->query($requete);

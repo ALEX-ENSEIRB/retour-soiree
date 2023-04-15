@@ -1,7 +1,8 @@
 <?php
 
-include "header.php";
-include "connect.php"; /* Le fichier connect.php contient les identifiants de connexion */
+include "../header/header.php";
+include "../header/connect.php";
+/* Le fichier connect.php contient les identifiants de connexion */
 
 // Users table has columns: id, name, firstname, email, phone, password
 // We need to insert the new user in the table users

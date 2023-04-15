@@ -1,15 +1,9 @@
 import axios from 'axios';
-
-const API_URL = await fetch('/conf.json').then(async (response) => {
-    const responseJson = await response.json().then((json) => {
-        return json.api_url
-    })
-    return responseJson;
-});
+import API_URL  from './api-url.js';
 
 
 const createUser = async (user) => {
-    const response = await axios.post(API_URL + "create_user.php", user).then((response) => {
+    const response = await axios.post(await API_URL + "user/create_user.php", user).then((response) => {
         console.log(response);
         return response;
     }).catch((error) => {

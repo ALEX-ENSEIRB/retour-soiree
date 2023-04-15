@@ -2,7 +2,6 @@ class User {
 
     static isConnected = () => {
         const connected = localStorage.getItem('connected');
-        console.log(connected);
         if (connected === 'true') {
             return true;
         } else {
@@ -12,6 +11,7 @@ class User {
 
     static disconect = () => {
         localStorage.removeItem('connected');
+        localStorage.removeItem('user');
         return false;
     }
 }

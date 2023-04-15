@@ -1,14 +1,9 @@
 import axios from 'axios';
+import API_URL  from './api-url.js';
 
-const API_URL = await fetch('/conf.json').then(async (response) => {
-    const responseJson = await response.json().then((json) => {
-        return json.api_url
-    })
-    return responseJson;
-});
 
 const createTrip = async (trip) => {
-    const data = await axios.post(API_URL + "create_trip.php", trip).then((response) => {
+    const data = await axios.post(await API_URL + "trip/create_trip.php", trip).then((response) => {
         console.log(response.data);
         return response.data;
     })

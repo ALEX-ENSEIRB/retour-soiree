@@ -1,6 +1,6 @@
 <?php
-include "header.php";
-include "connect.php";
+include "../header/header.php";
+include "../header/connect.php";
 
 $sql = "SELECT * FROM evenements";
 $result = $connection->query($sql);

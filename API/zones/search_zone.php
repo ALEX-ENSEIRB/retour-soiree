@@ -1,9 +1,8 @@
 <?php
-include "header.php";
-include "connect.php";
+include "../header/header.php";
+include "../header/connect.php";
 
-$sql = "SELECT * FROM zones";
-//$request = "SELECT ID_TRAJET, DATE_TRAJET, HEURE_TRAJET, NB_PLACES FROM trajets"
+$sql = "SELECT *FROM zones";
 $result = $connection->query($sql);
 $data = array();
 //récupere les données et les met dans un tableau
@@ -17,5 +16,4 @@ if ($result->num_rows > 0) {
 echo json_encode($data);
 
 http_response_code(200);
-
-
+?>

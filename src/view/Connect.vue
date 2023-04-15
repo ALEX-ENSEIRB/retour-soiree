@@ -14,9 +14,9 @@
                         <input v-model="data.email"
                             class="w-full bg-gray-300 text-gray-700 border rounded py-3 px-4 focus:outline-none focus:border-green-500"
                             type="text" placeholder="">
-                            <a href="" class="text-white-700 text-xs font-bold mb-2">Identifiant oublié?</a>
+                        <a href="" class="text-white-700 text-xs font-bold mb-2">Identifiant oublié?</a>
                     </div>
-                    
+
                 </div>
                 <div class="address_end form_input w-2/5">
                     <div class="address_content mb-5">
@@ -26,27 +26,27 @@
                         <input v-model="data.password"
                             class="w-full bg-gray-300 text-gray-700 border  rounded py-3 px-4 focus:outline-none focus:border-green-500"
                             type="password" placeholder="">
-                            <a href="" class="text-white-700 text-xs font-bold mb-2">Mot de passe oublié?</a>
+                        <a href="" class="text-white-700 text-xs font-bold mb-2">Mot de passe oublié?</a>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="connex">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                     v-on:click="connectHandler()">
-                        Se connecter
-                    </button>
-                   
-                
+                    Se connecter
+                </button>
+
+
             </div>
-            <router-link class="link-register" to="/register" >Pas encore inscrit?</router-link>
-            
+            <router-link class="link-register" to="/register">Pas encore inscrit?</router-link>
+
         </div>
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import connectUser from '../api/connect.js';
 import router from '../router/index.js';
 
@@ -81,9 +81,14 @@ const connectHandler = async () => {
     formData.append('password', data.password);
 
     const response = await connectUser(formData);
-    if(response.status === 200){
-        localStorage.setItem('connected', true);
-        window.location.href = '/'; //need to refresh page because header has to be remounted
+    try {
+        if (response.status === 200) {
+            localStorage.setItem('connected', true);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            window.location.href = '/'; //need to refresh page because header has to be remounted   
+        }
+    } catch (e) {
+        console.log(response);
     }
 }
 
@@ -104,7 +109,7 @@ const createError = (content) => {
 </script>
 
 <style>
-#errors{
+#errors {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -130,12 +135,14 @@ const createError = (content) => {
 .form_input {
     margin-bottom: 20px;
 }
-.connex{
+
+.connex {
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
-.link-register{
+
+.link-register {
     margin-top: 20px;
     color: #fff;
     text-decoration: underline;
