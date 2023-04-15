@@ -44,8 +44,13 @@ onMounted(async () => {
     })
     await searchTrip().then((result) => {
         result.forEach(element => {
-            //if userid in localhost is not the same as the driver id, then add the trip to the list
-            if (element.driver.id != JSON.parse(localStorage.getItem('user')).id) {
+            //if there is user in localhost
+            if (JSON.parse(localStorage.getItem('user'))){
+                //if userid in localhost is not the same as the driver id, then add the trip to the list
+                if (element.driver.id != JSON.parse(localStorage.getItem('user')).id) {
+                    trips.push(element)
+                }
+            }else{
                 trips.push(element)
             }
         });

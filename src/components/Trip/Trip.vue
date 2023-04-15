@@ -11,7 +11,7 @@
         <div class="vl"></div>
         <div class="drive_comment">
             <p>Conducteur : {{ trip.driver.firstname }} {{ trip.driver.name }}</p>
-            <div v-if="fromSearch">
+            <div v-if="isJoinable()">
                 <div class="join-ride-button">
                     <button class="join-ride-button__button" @click="joinTripHandler">
                         <span class="join-ride-button__button__text">S'inscrire au Trajet</span>
@@ -28,6 +28,14 @@ import { ref, onMounted } from 'vue';
 import { joinTrip } from '../../api/join-trip.js';
 
 const tripStatus = ref(false)
+
+const isJoinable = () => {
+    if (props.fromSearch && localStorage.getItem('user')) {
+        return true
+    } else {
+        return false
+    }
+}
 
 const toTime = (oldTime) => {
     const date = new Date(oldTime);
